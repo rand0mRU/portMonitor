@@ -15,6 +15,7 @@ object Form1: TForm1
     EditLabel.Width = 705
     EditLabel.Caption = 'Сообщение'
     TabOrder = 0
+    OnKeyDown = sendEditKeyDown
   end
   object sendButton: TButton
     Left = 721
@@ -23,12 +24,13 @@ object Form1: TForm1
     Width = 144
     Caption = 'Отправить'
     TabOrder = 1
+    OnClick = sendButtonClick
   end
   object console: TMemo
-    Left = 9
+    Left = 8
     Height = 352
     Top = 57
-    Width = 704
+    Width = 705
     Enabled = False
     Lines.Strings = (
       'console'
@@ -71,6 +73,7 @@ object Form1: TForm1
       Width = 144
       Caption = 'Отключиться'
       TabOrder = 2
+      OnClick = disconnectButtonClick
     end
     object baudEdit: TComboBox
       Left = 8
@@ -99,6 +102,13 @@ object Form1: TForm1
       Width = 107
       Caption = 'Скорость передачи'
     end
+  end
+  object Label2: TLabel
+    Left = 721
+    Height = 15
+    Top = 8
+    Width = 64
+    Caption = 'Отключено'
   end
   object COMPort: TRS232Port
     Left = 16

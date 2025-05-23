@@ -21,9 +21,14 @@ type
     connectBox: TGroupBox;
     connectPort: TLabeledEdit;
     Label1: TLabel;
+    Label2: TLabel;
     sendButton: TButton;
     sendEdit: TLabeledEdit;
     procedure connectButtonClick(Sender: TObject);
+    procedure disconnectButtonClick(Sender: TObject);
+    procedure sendButtonClick(Sender: TObject);
+    procedure sendEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
+      );
   private
 
   public
@@ -51,14 +56,45 @@ begin
   if baudEdit.Text='38400' then COMPort.BaudRate:=br038400;
   if baudEdit.Text='57600' then COMPort.BaudRate:=br057600;
   if baudEdit.Text='115200' then COMPort.BaudRate:=br115200;
-
+  console.Append(inttostr(COMPort.BaudRateToInt(COMPort.BaudRate)));
+                
+  Label2.Caption:='Подключено: ' + connectPort.Text;
   try
     COMPort.Open;
   except
     on E: ERS232OpenError do
+    begin                    
+      Label2.Caption:='Отключено';
       ShowMessage(E.PortName + ': ' + E.Message + '.');
+    end;
   end;
 end;
+
+procedure TForm1.disconnectButtonClick(Sender: TObject);
+begin
+  COMPort.Close;     
+  Label2.Caption:='Отключено';
+end;
+
+procedure TForm1.sendButtonClick(Sender: TObject);
+begin    
+  COMPort.WriteData(sendEdit.Text);
+  console.append('> ' + sendEdit.Text);  
+  sendEdit.Text:='';
+end;
+
+procedure TForm1.sendEditKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key.ToString()='13') then
+  begin
+     COMPort.WriteData(sendEdit.Text);
+     console.append('> ' + sendEdit.Text);
+     sendEdit.Text:='';
+  end;
+end;
+
+
 
 end.
 
