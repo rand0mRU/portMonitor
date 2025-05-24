@@ -14,6 +14,8 @@ type
 
   TForm1 = class(TForm)
     baudEdit: TComboBox;
+    saveButton: TButton;
+    clearButton: TButton;
     disconnectButton: TButton;
     connectButton: TButton;
     console: TMemo;
@@ -22,12 +24,15 @@ type
     connectPort: TLabeledEdit;
     Label1: TLabel;
     Label2: TLabel;
+    SaveDialog: TSaveDialog;
     sendButton: TButton;
     sendEdit: TLabeledEdit;
+    procedure clearButtonClick(Sender: TObject);
     procedure COMPortReadingProcess(Sender: TObject; Status, NBytes: integer;
       Data: ShortString);
     procedure connectButtonClick(Sender: TObject);
     procedure disconnectButtonClick(Sender: TObject);
+    procedure saveButtonClick(Sender: TObject);
     procedure sendButtonClick(Sender: TObject);
     procedure sendEditKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
@@ -41,6 +46,9 @@ var
   Form1: TForm1;
 
 implementation
+
+var
+  tfOut: TextFile;
 
 {$R *.lfm}
 
@@ -78,10 +86,21 @@ begin
   console.append(Data);
 end;
 
+procedure TForm1.clearButtonClick(Sender: TObject);
+begin
+  console.Text:='';
+end;
+
 procedure TForm1.disconnectButtonClick(Sender: TObject);
 begin
   COMPort.Close;     
   Label2.Caption:='Отключено';
+end;
+
+procedure TForm1.saveButtonClick(Sender: TObject);
+begin
+  if SaveDialog.Execute then
+    console.Lines.SaveToFile(SaveDialog.Filename);;
 end;
 
 procedure TForm1.sendButtonClick(Sender: TObject);

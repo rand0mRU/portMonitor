@@ -2,10 +2,10 @@ object Form1: TForm1
   Left = 350
   Height = 416
   Top = 250
-  Width = 1043
+  Width = 1041
   Caption = 'Port monitor'
   ClientHeight = 416
-  ClientWidth = 1043
+  ClientWidth = 1041
   object sendEdit: TLabeledEdit
     Left = 8
     Height = 23
@@ -31,10 +31,10 @@ object Form1: TForm1
     Height = 352
     Top = 57
     Width = 705
-    Enabled = False
     Lines.Strings = (
       'console'
     )
+    ReadOnly = True
     TabOrder = 2
   end
   object connectBox: TGroupBox
@@ -110,9 +110,32 @@ object Form1: TForm1
     Width = 64
     Caption = 'Отключено'
   end
+  object clearButton: TButton
+    Left = 721
+    Height = 24
+    Top = 57
+    Width = 144
+    Caption = 'Очистить'
+    TabOrder = 4
+    OnClick = clearButtonClick
+  end
+  object saveButton: TButton
+    Left = 721
+    Height = 24
+    Top = 385
+    Width = 144
+    Caption = 'Сохранить журнал'
+    TabOrder = 5
+    OnClick = saveButtonClick
+  end
   object COMPort: TRS232Port
     OnReadingProcess = COMPortReadingProcess
     Left = 16
+    Top = 424
+  end
+  object SaveDialog: TSaveDialog
+    FileName = 'console.log'
+    Left = 80
     Top = 424
   end
 end
